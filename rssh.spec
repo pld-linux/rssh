@@ -1,13 +1,14 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
-Version:	0.9.3
+Version:	1.0.0
 Release:	1
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tgz
-Patch0:		%{name}-Makefile.patch
+Patch0:		%{name}-DESTDIR.patch
 URL:		http://www.pizzashack.org/rssh/
+BuildRequires:	autoconf
 Requires:	openssh-server
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -27,12 +28,11 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %patch0 -p1
 
 %build
-# This is NOT ac/am stuff...
-./configure \
-	--prefix=%{_prefix} \
+%configure \
 	--with-scp=/usr/bin/scp \
 	--with-sftp-server=/usr/lib/openssh/sftp-server
-%{__make} CFLAGS="%{rpmcflags} -static" LDFLAGS="%{rpmldflags}"
+
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -67,7 +67,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README SECURITY
+%doc README SECURITY TODO
 %attr(711,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
