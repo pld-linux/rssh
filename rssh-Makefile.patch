@@ -7,7 +7,7 @@
 -	for i in $(PROGS); do echo "install -s -o root -g root -m 0111 $$i $(installdir)"; install -s -o root -g root -m 0111 $$i $(installdir); done
 -	for i in $(LINKS); do echo "ln -s rssh $(installdir)/$$i"; ln -s rssh $(installdir)/$$i; done
 +	install -d $(DESTDIR)$(installdir)
-+	for i in $(PROGS); do echo "install -s -m 0111 $$i $(DESTDIR)$(installdir)"; install -s -m 0111 $$i $(DESTDIR)$(installdir); done
++	for i in $(PROGS); do echo "install -s -m 0111 $$i $(DESTDIR)$(installdir)"; install -s $$i $(DESTDIR)$(installdir); done
 +	for i in $(LINKS); do echo "ln -s rssh $(DESTDIR)$(installdir)/$$i"; ln -s rssh $(DESTDIR)$(installdir)/$$i; done
  
  uninstall:
