@@ -40,7 +40,7 @@
 #define _ALLOW_SCP 1
 #define _ALLOW_SFTP (1 << 1)
 
-void do_exit_message( int flags );
+void fail( int flags );
 char **build_arg_vector( char *str );
 
 extern int errno;
@@ -49,36 +49,30 @@ int main( int argc, char **argv )
 {
 
     char **argvec;
-    int  allowed_command = 0;
-    int  flag = 0;
+    int  capabilities = 0;
 
     /*  check argv[0] for scp or sftp to see what's allowed */
     if ( !strcmp(basename(argv[0]), "scpsh") ) 
-        allowed_command = _ALLOW_SCP;
+        capabilities = _ALLOW_SCP;
     if ( !strcmp(basename(argv[0]), "sftpsh") )
-        allowed_command = _ALLOW_SFTP;
+        capabilities = _ALLOW_SFTP;
     if ( !strcmp(basename(argv[0]), "rssh") ) 
-        allowed_command = _ALLOW_SFTP | _ALLOW_SCP;
+        capabilities = _ALLOW_SFTP | _ALLOW_SCP;
 
     /* q&d arg count check */
-    if ( argc < 3 ) do_exit_message(allowed_command);
+    if ( argc < 3 ) fail(capabilities);
 
     /* if first arg is anything but -c, it's no good */
-    if ( strcmp("-c", argv[1]) ) do_exit_message(allowed_command);
+    if ( strcmp("-c", argv[1]) ) fail(capabilities);
 
     /* convert argv[2] into an arg vector suitable for execvp() */
     argvec = build_arg_vector(argv[2]);
 
     /* check to see if we got an allowed command */
-    if ( (!strcmp(argvec[0], _PATH_SFTP_SERVER)) && 
-        (allowed_command & _ALLOW_SFTP ) )
-        flag = 1;
-    if ( (!strcmp(argvec[0], "scp") && (allowed_command & _ALLOW_SCP)) )
-        flag = 1;
-
-    /* if no allowed command, print message and exit */
-    if ( !flag )
-        do_exit_message(allowed_command);
+    if ( ! ( (!strcmp(argvec[0], _PATH_SFTP_SERVER) && 
+            (capabilities & _ALLOW_SFTP) )  || 
+            ( (!strcmp(argvec[0], "scp") && (capabilities & _ALLOW_SCP)) ) ) )
+        fail(capabilities);
 
     /* if all that passed, exec the relevant command */
     execvp(argvec[0], argvec);
@@ -87,17 +81,19 @@ int main( int argc, char **argv )
     fprintf(stderr, "rssh: excecvp() failed.  ");
 
     switch (errno){
-
-        case EACCES:
-        case ENOTDIR:
-        case ENOENT:
-            fprintf(stderr, "%s is not an executable file, or permission denied.\n\n", argv[2]);
-            break;
-        case EPERM:
-            fprintf(stderr, "FS mounted nosuid or process is being traced\n"
-                    "(and you are not root)\n\n");
-            break;
-        default:
+    case EACCES:
+    case ENOTDIR:
+    case ENOENT:
+        fprintf(stderr,
+                "%s: %s is not an executable file, or permission denied.\n\n", 
+                basename(argv[0]), argvec[0]);
+        break;
+    case EPERM:
+        /* this shouldn't happen, as we don't run SUID */
+        fprintf(stderr, "%s: FS mounted nosuid or process is being traced\n"
+                "(and you are not root)\n\n", basename(argv[0]));
+        break;
+    default:
             fprintf(stderr, "an unknown error occurred.\n\n");
     }
     
@@ -119,35 +115,31 @@ char **build_arg_vector( char *str )
 }
 
 
-void do_exit_message( int flags )
+void fail( int flags )
 {
 
-    if ( !flags ){
-        fprintf(stderr, "\nrssh is not installed correctly!  Your sysadmin"
-                " is on crack!\n");
+    char *cmd;
+
+    switch (flags){
+    case (_ALLOW_SCP | _ALLOW_SFTP):
+        cmd = "scp or sftp";
+        break;
+    case _ALLOW_SCP:
+        cmd = "scp";
+        break;
+    case _ALLOW_SFTP:
+        cmd = "sftp";
+        break;
+    default:
+        fprintf(stderr, "\n\nrssh error - unknown capabilities.\n\n  rssh"
+                "is probably installed incorrectly.  Please see your"
+                "system administrator.\n\n");
         exit(1);
     }
 
-    fprintf( stderr, "\nThis account is restricted, for the use of ");
-
-    switch (flags){
-        case (_ALLOW_SCP | _ALLOW_SFTP):
-            fprintf(stderr, "scp or sftp");
-            break;
-        case _ALLOW_SCP:
-            fprintf(stderr, "scp");
-            break;
-        case _ALLOW_SFTP:
-            fprintf(stderr, "sftp");
-            break;
-        default:
-            fprintf(stderr, "\n\nrssh error!  This can only happen if rssh"
-                    " is not installed correctly.\n  Please see your "
-                    "system administrator.\n\n");
-    }
-
-    fprintf(stderr, " only.\nIf you believe this is in error, please contact"
-             " your system\nadministrator.\n\n" );
+    fprintf(stderr, "\nThis account is restricted to %s only.  If you believe\n"
+            "this is in error, please contact your system administrator.\n\n",
+            cmd);
     exit(0);
 }
 
