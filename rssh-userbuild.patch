@@ -1,21 +1,17 @@
-diff -urN rssh-2.0.1/Makefile.am rssh-2.0.1.new/Makefile.am
---- rssh-2.0.1/Makefile.am	Mon Feb 24 18:50:09 2003
-+++ rssh-2.0.1.new/Makefile.am	Sat Apr  5 08:37:12 2003
-@@ -15,4 +15,4 @@
+--- rssh-2.1.1/Makefile.am.orig	2003-09-15 07:49:52.000000000 +0200
++++ rssh-2.1.1/Makefile.am	2003-09-15 07:55:22.000000000 +0200
+@@ -1,7 +1,7 @@
+ ## Process this file with automake to produce Makefile.in
+ AUTOMAKE_OPTIONS = nostdinc
+ ourdefs = -DPATH_RSSH_CONFIG=\"@sysconfdir@/rssh.conf\" -DPATH_CHROOT_HELPER=\"@libexecdir@/rssh_chroot_helper\"
+-CFLAGS = @defcflags@ @static@ 
++AM_CFLAGS = @defcflags@ @static@ 
+ bin_PROGRAMS = rssh
+ libexec_PROGRAMS = rssh_chroot_helper
+ nodist_rssh_SOURCES = main.c pathnames.h config.h
+@@ -14,5 +14,3 @@
+ .c.o:
  	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<
  
- install-exec-local:
--	chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
-+	-chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
-diff -urN rssh-2.0.1/Makefile.in rssh-2.0.1.new/Makefile.in
---- rssh-2.0.1/Makefile.in	Fri Feb 28 16:58:11 2003
-+++ rssh-2.0.1.new/Makefile.in	Sat Apr  5 08:37:12 2003
-@@ -558,7 +558,7 @@
- 	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<
- 
- install-exec-local:
--	chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
-+	-chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
- # Tell versions [3.59,3.63) of GNU make to not export all variables.
- # Otherwise a system limit (for SysV at least) may be exceeded.
- .NOEXPORT:
+-install-exec-hook:
+-	chmod u+s $(libexecdir)/rssh_chroot_helper

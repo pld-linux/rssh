@@ -1,12 +1,12 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
-Version:	2.0.4
+Version:	2.1.1
 Release:	1
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
-# Source0-md5:	aad740b2c8573726e06d5f0c2b826ae0
+# Source0-md5:	d5260ad91fe71ba28ecb310892cc4139
 Patch0:		%{name}-userbuild.patch
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
@@ -31,6 +31,9 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %patch0 -p1
 
 %build
+%{__aclocal}
+%{__automake}
+%{__autoconf}
 %configure \
 	--with-scp=/usr/bin/scp \
 	--with-sftp-server=/usr/lib/openssh/sftp-server
@@ -40,7 +43,8 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	 DESTDIR=$RPM_BUILD_ROOT
 
 ln -sf rssh $RPM_BUILD_ROOT/bin/scpsh
 ln -sf rssh $RPM_BUILD_ROOT/bin/sftpsh
@@ -76,9 +80,9 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
+%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/rssh.conf
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
-%attr(4755,root,root) %{_bindir}/rssh_chroot_helper
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/rssh.conf
+%attr(4755,root,root) %{_libdir}/rssh_chroot_helper
 %{_mandir}/man?/*
