@@ -6,6 +6,7 @@ Release:	1
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
+# Source0-md5:	1cacd35008148055e48aeebcbdbb4d5d
 Patch0:		%{name}-userbuild.patch
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
