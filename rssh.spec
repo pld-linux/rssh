@@ -7,7 +7,6 @@ License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
 # Source0-md5:	351440cc3909214bae6f2ad2d57a4419
-# Source0-size:	105255
 Patch0:		%{name}-userbuild.patch
 Patch1:		%{name}-mkchroot.patch
 URL:		http://rssh.sourceforge.net/
