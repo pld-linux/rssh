@@ -46,6 +46,7 @@ ln -sf rssh $RPM_BUILD_ROOT/bin/sftpsh
 rm -rf $RPM_BUILD_ROOT
 
 %post
+umask 022
 if [ ! -f /etc/shells ]; then
 	echo "%{_bindir}/%{name}" > /etc/shells
 	echo "%{_bindir}/scpsh" >> /etc/shells
@@ -63,6 +64,7 @@ else
 fi
 
 %preun
+umask 022
 if [ "$1" = "0" ]; then
 	grep -v %{_bindir}/%{name} /etc/shells | grep -v %{_bindir}/scpsh | grep -v %{_bindir}/sftpsh > /etc/shells.new
 	mv -f /etc/shells.new /etc/shells
