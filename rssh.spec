@@ -9,8 +9,8 @@ Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	openssh-clients >= 3.5p1
-Requires:	openssh-server >= 3.5p1
+BuildRequires:	openssh-clients 
+Requires:	openssh-server
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
