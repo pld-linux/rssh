@@ -2,15 +2,15 @@ Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
 Version:	1.0.3
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	glibc-static
-Requires:	openssh-server
+BuildRequires:	openssh-clients >= 3.5p1
+Requires:	openssh-server >= 3.5p1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -39,8 +39,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-ln -sf /bin/rssh $RPM_BUILD_ROOT/bin/scpsh
-ln -sf /bin/rssh $RPM_BUILD_ROOT/bin/sftpsh
+ln -sf rssh $RPM_BUILD_ROOT/bin/scpsh
+ln -sf rssh $RPM_BUILD_ROOT/bin/sftpsh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -71,7 +71,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README TODO
-%attr(711,root,root) %{_bindir}/%{name}
+%attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
 %{_mandir}/man1/*.1*
