@@ -1,16 +1,20 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
-Version:	0.9
+Version:	1.0.4
 Release:	1
-License:	BSD-style
+License:	BSD-like
 Group:		Applications/Shells
-Source0:	http://www.pizzashack.org/rssh/%{name}.c
-Patch0:		%{name}-sftp.patch
+Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
 URL:		http://www.pizzashack.org/rssh/
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	openssh-clients 
+Requires:	openssh-server
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
+
 %description
 rssh is a small shell that provides the ability for system
 administrators to give specific users access to a given system via scp
@@ -21,21 +25,22 @@ rssh jest ma³ym shellem, który pozwala administratorowi ograniczyæ
 dostêp na danym koncie tylko do scp i/lub sftp.
 
 %prep
-%setup -c -T -q
-install %{SOURCE0} .
-%patch0 -p1
+%setup -q
 
 %build
-%{__cc} %{rpmcflags} %{rpmldflags} -o %{name} %{name}.c
+%configure \
+	--with-scp=/usr/bin/scp \
+	--with-sftp-server=/usr/lib/openssh/sftp-server
+
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
 
-install %{name} $RPM_BUILD_ROOT%{_bindir}
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-ln -sf %{name} $RPM_BUILD_ROOT%{_bindir}/scpsh
-ln -sf %{name} $RPM_BUILD_ROOT%{_bindir}/sftpsh
+ln -sf rssh $RPM_BUILD_ROOT/bin/scpsh
+ln -sf rssh $RPM_BUILD_ROOT/bin/sftpsh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,6 +70,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
+%{_mandir}/man1/*.1*
