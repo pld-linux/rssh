@@ -12,8 +12,7 @@ BuildRequires:	glibc-static
 Requires:	openssh-server
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/
-%define		_mandir		/usr/share/man
+%define		_bindir		/bin
 
 %description
 rssh is a small shell that provides the ability for system
