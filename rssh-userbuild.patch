@@ -1,21 +1,21 @@
-diff -urN rssh-2.0.0.org/Makefile.am rssh-2.0.0/Makefile.am
---- rssh-2.0.0.org/Makefile.am	Mon Feb 24 08:23:29 2003
-+++ rssh-2.0.0/Makefile.am	Mon Feb 24 08:23:38 2003
-@@ -14,4 +14,4 @@
+diff -urN rssh-2.0.1/Makefile.am rssh-2.0.1.new/Makefile.am
+--- rssh-2.0.1/Makefile.am	Mon Feb 24 18:50:09 2003
++++ rssh-2.0.1.new/Makefile.am	Sat Apr  5 08:37:12 2003
+@@ -15,4 +15,4 @@
  	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<
  
  install-exec-local:
--	chmod u+s @bindir@/rssh_chroot_helper
-+	-chmod u+s @bindir@/rssh_chroot_helper
-diff -urN rssh-2.0.0.org/Makefile.in rssh-2.0.0/Makefile.in
---- rssh-2.0.0.org/Makefile.in	Mon Feb 24 08:23:29 2003
-+++ rssh-2.0.0/Makefile.in	Mon Feb 24 08:25:15 2003
-@@ -559,7 +559,7 @@
+-	chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
++	-chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
+diff -urN rssh-2.0.1/Makefile.in rssh-2.0.1.new/Makefile.in
+--- rssh-2.0.1/Makefile.in	Fri Feb 28 16:58:11 2003
++++ rssh-2.0.1.new/Makefile.in	Sat Apr  5 08:37:12 2003
+@@ -558,7 +558,7 @@
  	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<
  
  install-exec-local:
--	chmod u+s @bindir@/rssh_chroot_helper
-+	-chmod u+s @bindir@/rssh_chroot_helper
+-	chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
++	-chmod u+s $(DESTDIR)/@bindir@/rssh_chroot_helper
  # Tell versions [3.59,3.63) of GNU make to not export all variables.
  # Otherwise a system limit (for SysV at least) may be exceeded.
  .NOEXPORT:
