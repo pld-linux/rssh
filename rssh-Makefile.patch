@@ -1,0 +1,14 @@
+--- ./Makefile.in.org	Mon Aug 19 07:08:06 2002
++++ ./Makefile.in	Mon Aug 19 10:18:04 2002
+@@ -14,8 +14,9 @@
+ 	make -f Make.debug
+ 
+ install: rssh
+-	for i in $(PROGS); do echo "install -s -o root -g root -m 0111 $$i $(installdir)"; install -s -o root -g root -m 0111 $$i $(installdir); done
+-	for i in $(LINKS); do echo "ln -s rssh $(installdir)/$$i"; ln -s rssh $(installdir)/$$i; done
++	install -d $(DESTDIR)$(installdir)
++	for i in $(PROGS); do echo "install -s -m 0111 $$i $(DESTDIR)$(installdir)"; install -s -m 0111 $$i $(DESTDIR)$(installdir); done
++	for i in $(LINKS); do echo "ln -s rssh $(DESTDIR)$(installdir)/$$i"; ln -s rssh $(DESTDIR)$(installdir)/$$i; done
+ 
+ uninstall:
+ 	for file in $(PROGS); do rm -f $(installdir)/$$file; done
