@@ -1,0 +1,18 @@
+--- mkchroot.sh-orig	2004-07-21 20:47:06.000000000 +0000
++++ mkchroot.sh	2004-07-21 20:55:15.000000000 +0000
+@@ -96,11 +96,11 @@
+ # copy SSH files
+ 
+ scp_path="/usr/bin/scp"
+-sftp_server_path="/usr/libexec/openssh/sftp-server"
+-rssh_path="/usr/bin/rssh"
+-chroot_helper_path="/usr/libexec/rssh_chroot_helper"
++sftp_server_path="/usr/lib/openssh/sftp-server"
++rssh_path="/bin/rssh"
++chroot_helper_path="/usr/lib/rssh_chroot_helper"
+ 
+-for jail_path in `dirname "$jail_dir$scp_path"` `dirname "$jail_dir$sftp_server_path"` `dirname "$jail_dir$chroot_helper_path"`; do
++for jail_path in `dirname "$jail_dir$scp_path"` `dirname "$jail_dir$sftp_server_path"` `dirname "$jail_dir$chroot_helper_path"` `dirname "$jail_dir$rssh_path"`; do
+ 
+ 	echo "setting up $jail_path"
+ 
