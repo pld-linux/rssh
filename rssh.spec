@@ -3,7 +3,7 @@ Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
 Version:	0.9
 Release:	2
-License:	BSD-style
+License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/%{name}.c
 Patch0:		%{name}-sftp.patch
