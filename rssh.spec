@@ -2,7 +2,7 @@ Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i sftp
 Name:		rssh
 Version:	2.2.1
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
@@ -13,7 +13,7 @@ URL:		http://rssh.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	openssh-clients >= 3.5p1
-Requires:	openssh-server >= 3.5p1
+Conflicts:	openssh-server < 3.5p1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
