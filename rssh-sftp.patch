@@ -1,0 +1,11 @@
+--- ./rssh.c.org	Sat Aug 17 15:24:54 2002
++++ ./rssh.c	Sat Aug 17 15:35:13 2002
+@@ -35,7 +35,7 @@
+ #include <wordexp.h>
+ 
+ /* for sftp */
+-#define _PATH_SFTP_SERVER       "/usr/libexec/openssh/sftp-server"
++#define _PATH_SFTP_SERVER       "/usr/lib/openssh/sftp-server"
+ 
+ #define _ALLOW_SCP 1
+ #define _ALLOW_SFTP (1 << 1)
