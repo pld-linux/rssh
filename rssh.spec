@@ -38,7 +38,7 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %{__autoconf}
 %configure \
 	--with-scp=/usr/bin/scp \
-	--with-sftp-server=/usr/lib/openssh/sftp-server
+	--with-sftp-server=/usr/%{_lib}/openssh/sftp-server
 
 %{__make}
 
