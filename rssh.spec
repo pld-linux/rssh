@@ -37,8 +37,8 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %{__automake}
 %{__autoconf}
 %configure \
-	--with-scp=%{_prefix}%{_bindir}/scp \
-	--with-sftp-server=%{_prefix}/lib/openssh/sftp-server
+	--with-scp=/usr/bin/scp \
+	--with-sftp-server=/usr/lib/openssh/sftp-server
 
 %{__make}
 
