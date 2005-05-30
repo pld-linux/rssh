@@ -1,12 +1,12 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i/lub sftp
 Name:		rssh
-Version:	2.2.2
+Version:	2.2.3
 Release:	1
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://www.pizzashack.org/rssh/src/%{name}-%{version}.tar.gz
-# Source0-md5:	351440cc3909214bae6f2ad2d57a4419
+# Source0-md5:	74f40a4fd5d2b097af34a817e21a33cf
 Patch0:		%{name}-userbuild.patch
 Patch1:		%{name}-mkchroot.patch
 URL:		http://rssh.sourceforge.net/
@@ -37,8 +37,8 @@ dostêp na danym koncie tylko do scp i/lub sftp.
 %{__automake}
 %{__autoconf}
 %configure \
-	--with-scp=/usr/bin/scp \
-	--with-sftp-server=/usr/lib/openssh/sftp-server
+--with-scp=%{_prefix}%{_bindir}/scp \
+--with-sftp-server=%{_prefix}/lib/openssh/sftp-server
 
 %{__make}
 
@@ -48,8 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	 DESTDIR=$RPM_BUILD_ROOT
 
-ln -sf rssh $RPM_BUILD_ROOT/bin/scpsh
-ln -sf rssh $RPM_BUILD_ROOT/bin/sftpsh
+ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/scpsh
+ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/sftpsh
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,7 +82,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README CHROOT SECURITY mkchroot.sh
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/rssh.conf
+%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/rssh.conf
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
