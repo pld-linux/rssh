@@ -1,7 +1,7 @@
 # TODO
 # - no need to have have the shell in /bin, as it needs running sshd
 #   to work, which itself needs /usr to be mounted. for nice trigger
-#   see cvsspam.spec.
+#   see cvsspam.spec or scponly.spec
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i/lub sftp
 Name:		rssh
