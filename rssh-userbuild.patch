@@ -9,9 +9,13 @@
  bin_PROGRAMS = rssh
  libexec_PROGRAMS = rssh_chroot_helper
  nodist_rssh_SOURCES = main.c pathnames.h config.h
-@@ -14,5 +14,3 @@
+@@ -15,9 +15,6 @@
  .c.o:
  	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<
  
 -install-exec-hook:
 -	chmod u+s $(libexecdir)/rssh_chroot_helper
+-
+ rpm:	dist
+ 	rpmbuild -ta --sign $(base).tar.gz
+ 	cp /users/ddm/tmp/RPM/i386/$(base)-1.i386.rpm .
