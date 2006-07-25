@@ -85,8 +85,8 @@ if [ "$1" = "0" ]; then
 	%{__sed} -i -e '/^%(echo %{_bindir} | sed -e 's,/,\\/,g')\/\(%{name}\|scpsh\|sftpsh\)$/d' /etc/shells
 fi
 
-# make compat symlink, the symlink is discarded using %ghost on package uninstall
 %triggerpostun -- %{name} < 2.3.2-0.6
+# make compat symlinks, the symlinks are discarded using %ghost on package uninstall
 ln -sf %{_bindir}/%{name} /bin/%{name}
 ln -sf %{_bindir}/scpsh /bin/scpsh
 ln -sf %{_bindir}/sftpsh /bin/sftpsh
