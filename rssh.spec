@@ -94,7 +94,7 @@ ln -sf %{_bindir}/sftpsh /bin/sftpsh
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README CHROOT SECURITY mkchroot.sh
-%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rssh.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rssh.conf
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
