@@ -1,5 +1,5 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
-Summary(pl):	Okrojona pow³oka daj±ca dostêp tylko do scp i/lub sftp
+Summary(pl.UTF-8):   Okrojona powÅ‚oka dajÄ…ca dostÄ™p tylko do scp i/lub sftp
 Name:		rssh
 Version:	2.3.2
 Release:	1
@@ -25,9 +25,9 @@ rssh is a small shell that provides the ability for system
 administrators to give specific users access to a given system via scp
 or sftp only.
 
-%description -l pl
-rssh jest ma³ym shellem, który pozwala administratorowi ograniczyæ
-dostêp na danym koncie tylko do scp i/lub sftp.
+%description -l pl.UTF-8
+rssh jest maÅ‚ym shellem, ktÃ³ry pozwala administratorowi ograniczyÄ‡
+dostÄ™p na danym koncie tylko do scp i/lub sftp.
 
 %prep
 %setup -q
