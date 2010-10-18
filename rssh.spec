@@ -1,7 +1,7 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl.UTF-8):	Okrojona powłoka dająca dostęp tylko do scp i/lub sftp
 Name:		rssh
-Version:	2.3.2
+Version:	2.3.3
 Release:	1
 License:	BSD-like
 Group:		Applications/Shells
