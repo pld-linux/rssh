@@ -2,13 +2,14 @@ Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl.UTF-8):	Okrojona powłoka dająca dostęp tylko do scp i/lub sftp
 Name:		rssh
 Version:	2.3.3
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://dl.sourceforge.net/rssh/%{name}-%{version}.tar.gz
 # Source0-md5:	b0c147602fcc95737ed50573b92fc468
 Patch0:		%{name}-userbuild.patch
 Patch1:		%{name}-mkchroot.patch
+Patch2:		%{name}-rsync-protocol.patch
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -33,6 +34,7 @@ dostęp na danym koncie tylko do scp i/lub sftp.
 %setup -q
 %patch0 -p1
 %patch1
+%patch2 -p1
 
 %build
 %{__aclocal}
