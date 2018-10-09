@@ -5,7 +5,7 @@ Version:	2.3.4
 Release:	1
 License:	BSD-like
 Group:		Applications/Shells
-Source0:	http://dl.sourceforge.net/rssh/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/rssh/%{name}-%{version}.tar.gz
 # Source0-md5:	5211f5fe206704f813a3cec61f487042
 Patch0:		%{name}-userbuild.patch
 Patch1:		%{name}-mkchroot.patch
@@ -53,7 +53,7 @@ install -d $RPM_BUILD_ROOT/bin
 %{__make} install \
 	 DESTDIR=$RPM_BUILD_ROOT
 
-mv -f $RPM_BUILD_ROOT%{_sysconfdir}/rssh.conf{.default,}
+%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/rssh.conf{.default,}
 ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/scpsh
 ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/sftpsh
 
@@ -61,7 +61,6 @@ ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/sftpsh
 ln -s %{_bindir}/%{name} $RPM_BUILD_ROOT/bin/%{name}
 ln -s %{_bindir}/scpsh $RPM_BUILD_ROOT/bin/scpsh
 ln -s %{_bindir}/sftpsh $RPM_BUILD_ROOT/bin/sftpsh
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
