@@ -1,14 +1,5 @@
 --- rssh-2.1.1/Makefile.am.orig	2003-09-15 07:49:52.000000000 +0200
 +++ rssh-2.1.1/Makefile.am	2003-09-15 07:55:22.000000000 +0200
-@@ -1,7 +1,7 @@
- ## Process this file with automake to produce Makefile.in
- AUTOMAKE_OPTIONS = nostdinc
- ourdefs = -DPATH_RSSH_CONFIG=\"@sysconfdir@/rssh.conf\" -DPATH_CHROOT_HELPER=\"@libexecdir@/rssh_chroot_helper\"
--CFLAGS = @defcflags@ @static@ 
-+AM_CFLAGS = @defcflags@ @static@ 
- bin_PROGRAMS = rssh
- libexec_PROGRAMS = rssh_chroot_helper
- nodist_rssh_SOURCES = main.c pathnames.h config.h
 @@ -15,9 +15,6 @@
  .c.o:
  	$(CC) -c $(DEFS) $(ourdefs) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $<

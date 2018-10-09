@@ -1,12 +1,12 @@
 Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl.UTF-8):	Okrojona powłoka dająca dostęp tylko do scp i/lub sftp
 Name:		rssh
-Version:	2.3.3
-Release:	4
+Version:	2.3.4
+Release:	1
 License:	BSD-like
 Group:		Applications/Shells
 Source0:	http://dl.sourceforge.net/rssh/%{name}-%{version}.tar.gz
-# Source0-md5:	b0c147602fcc95737ed50573b92fc468
+# Source0-md5:	5211f5fe206704f813a3cec61f487042
 Patch0:		%{name}-userbuild.patch
 Patch1:		%{name}-mkchroot.patch
 Patch2:		%{name}-rsync-protocol.patch
@@ -53,6 +53,7 @@ install -d $RPM_BUILD_ROOT/bin
 %{__make} install \
 	 DESTDIR=$RPM_BUILD_ROOT
 
+mv -f $RPM_BUILD_ROOT%{_sysconfdir}/rssh.conf{.default,}
 ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/scpsh
 ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/sftpsh
 
@@ -60,6 +61,7 @@ ln -sf rssh $RPM_BUILD_ROOT%{_bindir}/sftpsh
 ln -s %{_bindir}/%{name} $RPM_BUILD_ROOT/bin/%{name}
 ln -s %{_bindir}/scpsh $RPM_BUILD_ROOT/bin/scpsh
 ln -s %{_bindir}/sftpsh $RPM_BUILD_ROOT/bin/sftpsh
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -100,7 +102,7 @@ ln -sf %{_bindir}/sftpsh /bin/sftpsh
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/scpsh
 %attr(755,root,root) %{_bindir}/sftpsh
-%attr(4755,root,root) %{_libdir}/rssh_chroot_helper
+%attr(4755,root,root) %{_libexecdir}/rssh_chroot_helper
 %{_mandir}/man?/*
 # legacy
 %ghost /bin/%{name}

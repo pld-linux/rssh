@@ -62,17 +62,16 @@ index e576755..50a63e2 100644
   * check_command_line() - take the command line passed to rssh, and verify
   * 			  that the specified command is one the user is
   * 			  allowed to run.  Return the path of the command
-@@ -230,9 +258,9 @@ char *check_command_line( char *cl, ShellOptions_t *opts )
+@@ -258,7 +258,11 @@ char *check_command_line( char **cl, ShellOptions_t *opts )
  
- 	if ( check_command(cl, opts, PATH_RSYNC, RSSH_ALLOW_RSYNC) ){
+ 	if ( check_command(*cl, opts, PATH_RSYNC, RSSH_ALLOW_RSYNC) ){
  		/* filter -e option */
--		if ( opt_exist(cl, 'e') ){
-+		if ( opt_exist(cl, 'e') && !check_rsync_e(cl) ){
- 			fprintf(stderr, "\ninsecure -e option not allowed.");
--			log_msg("insecure -e option in rdist command line!");
-+			log_msg("insecure -e option in rsync command line!");
- 			return NULL;
- 		}
- 		
--- 
-tg: (05d6ee0..) fixes/rsync-protocol (depends on: upstream)
+-		if ( opt_filter(cl, 'e') ) return NULL;
++		if ( opt_filter(cl, 'e') && !check_rsync_e(cl) ) {
++			fprintf(stderr, "\ninsecure -e without --server not allowed.");
++			log_msg("insecure -e option without --server in rsync command line!");
++			return NULL;
++		}
+ 		while (cl && *cl){
+ 			if ( strstr(*cl, "--rsh" ) ){
+ 				fprintf(stderr, "\ninsecure --rsh= not allowed.");
