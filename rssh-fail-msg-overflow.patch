@@ -1,0 +1,23 @@
+From: Russ Allbery <rra@debian.org>
+Date: Sat, 7 Dec 2013 18:32:55 -0800
+Subject: Fix buffer allocation buffer for fail message
+
+The failure log message when the user isn't permitted to run the
+command they're attempting includes a summary of the commands the
+user is allowed to run.  The allocation for that string was not
+reserving space for the nul byte at the end of the string, causing
+a one-byte overwrite past the end of the string.
+
+diff --git a/util.c b/util.c
+index f98d2bc..9ea3e9e 100644
+--- a/util.c
++++ b/util.c
+@@ -84,7 +84,7 @@ void fail( int flags, int argc, char **argv )
+ 	/* create msg indicating what is allowed */
+ 	if ( !size ) cmd = "This user is locked out.";
+ 	else {
+-		size += 18;
++		size += 18 + 1;
+ 		if ( !(cmd = (char *)malloc(size)) ){
+ 			log_msg("fatal error: out of mem allocating log msg");
+ 			exit(1);

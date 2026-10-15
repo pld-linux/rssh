@@ -1,0 +1,26 @@
+setuid helper ignores setuid() failure and would go on running the user's
+command as root inside the chroot
+
+diff --git a/rssh_chroot_helper.c b/rssh_chroot_helper.c
+index b751e14..6deab9e 100644
+--- a/rssh_chroot_helper.c
++++ b/rssh_chroot_helper.c
+@@ -100,7 +100,7 @@ void ch_fatal_error( char *func, char *arg, char *strerr )
+ {
+ 
+ 	/* drop privileges */
+-	if ( !geteuid() ) setuid(getuid());
++	if ( !geteuid() && setuid(getuid()) == -1 ) exit(1);
+ 	ch_start_logging();
+ 
+ 	/* log error */
+@@ -192,7 +192,8 @@ int main( int argc, char **argv )
+ 
+ 	/* END OF CODE EXPOSED AS ROOT! */
+ 
+-	setuid(getuid());
++	if ( setuid(getuid()) == -1 )
++		ch_fatal_error("setuid()", argv[1], strerror(errno));
+ 	ch_start_logging();
+ 
+ 	log_msg("user's home dir is %s", uinfo.pw_dir);

@@ -1,0 +1,18 @@
+get_token() computes its return value from pointers into a buffer it has
+already freed
+
+diff --git a/rsshconf.c b/rsshconf.c
+index 4b22766..57f0df5 100644
+--- a/rsshconf.c
++++ b/rsshconf.c
+@@ -415,8 +415,9 @@ int get_token( const char *str, char *buf, const int buflen,
+ 	/* copy the remainder into buf, and return */
+ 	len = (int)(1 + end - start);
+ 	strncpy(buf, start, ((len > buflen - 1) ? (buflen - 1) : len));
++	len = (int)(1 + end + adjust - copy);
+ 	free(copy);
+-	return (1 + end + adjust - copy);
++	return len;
+ }
+ 
+ 

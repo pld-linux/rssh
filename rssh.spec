@@ -2,14 +2,19 @@ Summary:	A restricted shell for assigning scp- or sftp-only access
 Summary(pl.UTF-8):	Okrojona powłoka dająca dostęp tylko do scp i/lub sftp
 Name:		rssh
 Version:	2.3.4
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications/Shells
-Source0:	http://downloads.sourceforge.net/rssh/%{name}-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/rssh/%{name}-%{version}.tar.gz
 # Source0-md5:	5211f5fe206704f813a3cec61f487042
 Patch0:		%{name}-userbuild.patch
-Patch1:		%{name}-mkchroot.patch
+Patch1:		%{name}-cflags.patch
 Patch2:		%{name}-rsync-protocol.patch
+Patch3:		%{name}-fail-msg-overflow.patch
+Patch4:		%{name}-scp-options.patch
+Patch5:		%{name}-chroot-check.patch
+Patch6:		%{name}-use-after-free.patch
+Patch7:		%{name}-setuid-check.patch
 URL:		http://www.pizzashack.org/rssh/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -33,14 +38,23 @@ dostęp na danym koncie tylko do scp i/lub sftp.
 %prep
 %setup -q
 %patch -P0 -p1
-%patch -P1
+%patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
+%patch -P6 -p1
+%patch -P7 -p1
+
+%{__sed} -i -e 's,^sftp_server_path=.*,sftp_server_path="%{_libdir}/openssh/sftp-server",' mkchroot.sh
 
 %build
 %{__aclocal}
 %{__automake}
 %{__autoconf}
+CFLAGS="%{rpmcflags} -std=gnu17"
 %configure \
+	--disable-static \
 	--with-scp=/usr/bin/scp \
 	--with-sftp-server=/usr/%{_lib}/openssh/sftp-server
 
@@ -99,8 +113,8 @@ ln -sf %{_bindir}/sftpsh /bin/sftpsh
 %doc AUTHORS ChangeLog README CHROOT SECURITY mkchroot.sh
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rssh.conf
 %attr(755,root,root) %{_bindir}/%{name}
-%attr(755,root,root) %{_bindir}/scpsh
-%attr(755,root,root) %{_bindir}/sftpsh
+%{_bindir}/scpsh
+%{_bindir}/sftpsh
 %attr(4755,root,root) %{_libexecdir}/rssh_chroot_helper
 %{_mandir}/man?/*
 # legacy
